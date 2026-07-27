@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Listening Lab — An Invitation to a Party (A2)</title>
+<title>Listening Lab — Changing a Meeting Time (A2)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -143,7 +143,7 @@
   /* ---------- Main container ---------- */
   .wrap{max-width:900px; margin:0 auto; padding:0 20px;}
 
-  /* ---------- Video / Player Card ---------- */
+  /* ---------- Audio Player Card ---------- */
   .player-card{
     background:var(--ink-2);
     border:1px solid var(--line);
@@ -161,27 +161,61 @@
     font-size:14px;
     margin-bottom:16px;
   }
-  .player-shell{
+  .audio-shell{
     position:relative;
     width:100%;
-    aspect-ratio:16/9;
+    min-height:220px;
     border-radius:10px;
     overflow:hidden;
-    background:#000;
+    background:
+      radial-gradient(circle at 50% 40%, #26303F 0%, #10151C 75%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    padding:30px 20px;
   }
-  #yt-player{width:100%; height:100%;}
+  .audio-icon{
+    width:56px; height:56px;
+    border-radius:50%;
+    background:rgba(232,169,59,0.12);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--amber);
+  }
+  .audio-bg-bars{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    opacity:0.25;
+    pointer-events:none;
+  }
+  .audio-bg-bars span{
+    width:4px;
+    background:var(--amber-dim);
+    border-radius:3px;
+    height:14px;
+  }
+  .audio-bg-bars.playing span{background:var(--amber); animation:bgbounce 1.1s ease-in-out infinite;}
+  .audio-bg-bars span:nth-child(odd){animation-delay:0.15s;}
+  .audio-bg-bars span:nth-child(3n){animation-delay:0.3s;}
+  @keyframes bgbounce{
+    0%,100%{height:10px;}
+    50%{height:60px;}
+  }
   .overlay{
-    position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(10,13,18,0.55), rgba(10,13,18,0.85)), center/cover no-repeat;
+    position:relative;
+    z-index:2;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     gap:14px;
     cursor:pointer;
-    transition:opacity 0.25s ease;
     text-align:center;
-    padding:20px;
   }
   .overlay.hidden{display:none;}
   .overlay.locked{cursor:default;}
@@ -233,7 +267,7 @@
   }
   .dot.used{background:var(--line); transform:scale(0.8);}
 
-  /* waveform */
+  /* small waveform in footer */
   .waveform{display:flex; align-items:flex-end; gap:3px; height:22px;}
   .waveform span{
     width:3px;
@@ -254,7 +288,7 @@
     50%{height:20px;}
   }
   @media (prefers-reduced-motion: reduce){
-    .waveform span{animation:none !important;}
+    .waveform span, .audio-bg-bars span{animation:none !important;}
     .overlay, .play-btn{transition:none !important;}
   }
 
@@ -491,8 +525,8 @@
 <div class="ticket-header">
   <div class="ticket">
     <span class="eyebrow">Listening Lab <span class="level-pill">A2 · PRE-INTERMEDIATE</span></span>
-    <h1>An Invitation to a Party</h1>
-    <p class="subtitle">British Council listening practice — two voicemail messages about a birthday party, with directions to get there.</p>
+    <h1>Changing a Meeting Time</h1>
+    <p class="subtitle">British Council listening practice — two colleagues rearrange a meeting. Listen for times, reasons, and what happens next.</p>
 
     <div class="name-field">
       <label for="studentName">Your name</label>
@@ -511,18 +545,24 @@
 <div class="wrap">
 
   <div class="player-card">
-    <h2>Listen to the voicemail messages</h2>
-    <p class="hint">Press play when you are ready. There are two messages. Listen carefully for times, directions, and numbers. You can play the video 3 times.</p>
+    <h2>Listen to the conversation</h2>
+    <p class="hint">Press play when you are ready. This is an audio recording — close your eyes and listen carefully. You can play it 3 times.</p>
 
-    <div class="player-shell">
-      <div id="yt-player"></div>
-      <div class="overlay" id="overlay" style="background-image:url('https://img.youtube.com/vi/NPLLb9OZJNg/maxresdefault.jpg');">
+    <div class="audio-shell">
+      <div class="audio-bg-bars" id="bgBars">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="overlay" id="overlay">
+        <div class="audio-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
         <div class="play-btn">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="#141A22"><path d="M8 5v14l11-7z"/></svg>
         </div>
         <span class="overlay-label" id="overlayLabel">Play — attempt 1 of 3</span>
       </div>
     </div>
+    <audio id="audioPlayer" preload="none" src="https://learnenglish.britishcouncil.org/sites/podcasts/files/LE_listening_A2_Changing_a_meeting_time.mp3"></audio>
 
     <div class="player-footer">
       <div class="plays-remaining">
@@ -555,7 +595,7 @@
   <div id="results">
     <div class="receipt" id="receipt">
       <div class="receipt-title">Listening Score</div>
-      <div class="receipt-sub">An Invitation to a Party · A2</div>
+      <div class="receipt-sub">Changing a Meeting Time · A2</div>
       <div class="receipt-row"><span>Student</span><span id="rName">—</span></div>
       <div class="receipt-row"><span>Date</span><span id="rDate">—</span></div>
       <div class="receipt-row"><span>Correct</span><span id="rCorrect">—</span></div>
@@ -585,30 +625,30 @@
 <script>
 /* ---------------- Question bank (A2 — simple English, MCQ only) ---------------- */
 const QUESTIONS = [
-  {id:1, prompt:"What time was the first message received?",
-   options:["A quarter to four","A quarter past four","Half past four","Four o'clock"], correct:0},
-  {id:2, prompt:"What does the woman thank the listener for in message one?",
-   options:["A present","A birthday card and message","A phone call","A visit"], correct:1},
-  {id:3, prompt:"She is having a party for...",
-   options:["Her family","Her very good friends","Everybody at work","Her neighbours"], correct:1},
-  {id:4, prompt:"Where is the party?",
-   options:["At the swimming pool at her house","At her cousin's house","At work","At a restaurant"], correct:1},
-  {id:5, prompt:"What time was the second message received?",
-   options:["3.45 p.m.","4.15 p.m.","5.15 p.m.","6.15 p.m."], correct:2},
-  {id:6, prompt:"To get to the party by car, you should first drive...",
-   options:["Straight on Forest Road","Right on Forest Road","Left on Forest Road","Past the swimming pool"], correct:0},
-  {id:7, prompt:"Which motorway exit do you need to take?",
-   options:["3A","13A","30A","31A"], correct:1},
-  {id:8, prompt:"After the exit, what should you do?",
-   options:["Turn right","Go straight","Turn left","Stop and call"], correct:2},
-  {id:9, prompt:"Where exactly is the house?",
-   options:["The first big house on the right","The first big house on the left","At the end of the road","Next to a shop"], correct:0},
-  {id:10, prompt:"If you go by public transport, what should you do?",
-   options:["Take bus 18 to Brownsville","Take bus 80 to Forest Road","Take bus 80 to Brownsville","Walk from the motorway"], correct:2},
-  {id:11, prompt:"If you take the bus, what happens when you arrive?",
-   options:["You walk to the house alone","Somebody drives you from the town to the house","There is a bus stop outside the house","You wait at the motorway"], correct:1},
-  {id:12, prompt:"When did the woman receive the birthday card?",
-   options:["This morning","Last night","Yesterday morning","Yesterday evening"], correct:0},
+  {id:1, prompt:"Who is Lucy talking to?",
+   options:["Her boss","Anna","Sven","A client"], correct:1},
+  {id:2, prompt:"When is the meeting?",
+   options:["Next Monday","Next Tuesday","Next Friday","Tomorrow"], correct:1},
+  {id:3, prompt:"What time was the meeting first planned for?",
+   options:["9 a.m.","11 a.m.","12 p.m.","1 p.m."], correct:1},
+  {id:4, prompt:"What new time does Lucy ask for?",
+   options:["9 o'clock","10 o'clock","12 o'clock","1 o'clock"], correct:0},
+  {id:5, prompt:"Why does Lucy need an earlier time?",
+   options:["She has another meeting at 12 in the central office","She has to pick up her children","She is going on a trip","She feels unwell"], correct:0},
+  {id:6, prompt:"Did Lucy get the agenda that Anna sent?",
+   options:["No, she never saw it","Yes, she got it","She asked for a new one","She forgot to check"], correct:1},
+  {id:7, prompt:"Is Lucy's report ready?",
+   options:["No, not yet","Yes, it's ready","Someone else is preparing it","She needs one more day"], correct:1},
+  {id:8, prompt:"Who does Lucy offer to tell about the time change?",
+   options:["Anna","Sven","Her manager","The whole office"], correct:1},
+  {id:9, prompt:"What does Anna decide to do instead?",
+   options:["Let Lucy tell Sven herself","Send an email to confirm the new time","Cancel the meeting","Call everyone by phone"], correct:1},
+  {id:10, prompt:"Does the meeting get cancelled?",
+   options:["Yes, it does","No, it doesn't","It's postponed to next month","It's not clear"], correct:1},
+  {id:11, prompt:"How does Anna feel about the new time?",
+   options:["Annoyed","Happy that it works for Lucy","Confused","Worried"], correct:1},
+  {id:12, prompt:"What does Lucy say at the end of the call?",
+   options:["\u201CGoodbye forever\u201D","\u201CHave a good weekend\u201D","\u201CSee you tomorrow\u201D","\u201CI'm sorry\u201D"], correct:1},
 ];
 
 const TOTAL = QUESTIONS.length;
@@ -655,8 +695,8 @@ function updateAnsweredCount(){
   document.getElementById('answeredCount').textContent = `${n} / ${TOTAL} answered`;
 }
 
-/* ---------------- YouTube player + play limiter ---------------- */
-let player;
+/* ---------------- Audio player + play limiter ---------------- */
+const audio = document.getElementById('audioPlayer');
 let playsRemaining = 3;
 let timerStarted = false;
 let startTime = null;
@@ -665,6 +705,7 @@ let timerInterval = null;
 const overlay = document.getElementById('overlay');
 const overlayLabel = document.getElementById('overlayLabel');
 const waveform = document.getElementById('waveform');
+const bgBars = document.getElementById('bgBars');
 const dots = document.querySelectorAll('.dot');
 
 function updateDots(){
@@ -705,49 +746,27 @@ function stopTimer(){
 }
 
 overlay.addEventListener('click', () => {
-  if(playsRemaining <= 0 || !player) return;
+  if(playsRemaining <= 0) return;
   playsRemaining--;
   updateDots();
   overlay.classList.add('hidden');
   startTimer();
   try{
-    player.seekTo(0);
-    player.playVideo();
+    audio.currentTime = 0;
+    audio.play();
   }catch(e){}
 });
 
-function onYouTubeIframeAPIReady(){
-  player = new YT.Player('yt-player', {
-    videoId: 'NPLLb9OZJNg',
-    playerVars: {
-      autoplay: 0, controls: 0, disablekb: 1, fs: 0,
-      modestbranding: 1, rel: 0, iv_load_policy: 3, playsinline: 1
-    },
-    events: {
-      onStateChange: onPlayerStateChange
-    }
-  });
-}
-window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-
-function onPlayerStateChange(event){
-  if(event.data === YT.PlayerState.PLAYING){
-    waveform.classList.add('playing');
-  }
-  if(event.data === YT.PlayerState.ENDED){
-    waveform.classList.remove('playing');
-    updateOverlayLabel();
-    overlay.classList.remove('hidden');
-    overlay.style.backgroundImage = "linear-gradient(180deg, rgba(10,13,18,0.55), rgba(10,13,18,0.85))";
-  }
-}
-
-/* ---------------- Load YT API script ---------------- */
-(function(){
-  const tag = document.createElement('script');
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.head.appendChild(tag);
-})();
+audio.addEventListener('playing', () => {
+  waveform.classList.add('playing');
+  bgBars.classList.add('playing');
+});
+audio.addEventListener('ended', () => {
+  waveform.classList.remove('playing');
+  bgBars.classList.remove('playing');
+  updateOverlayLabel();
+  overlay.classList.remove('hidden');
+});
 
 /* ---------------- Submission + grading ---------------- */
 document.getElementById('submitBtn').addEventListener('click', () => {
@@ -804,7 +823,7 @@ function renderResults(correctCount, elapsedSecs){
   else if(percent >= 75){ rank='B'; caption='Good job — well done.'; }
   else if(percent >= 65){ rank='C'; caption='Nice try — a few details were tricky.'; }
   else if(percent >= 50){ rank='D'; caption='You passed — listen again to improve.'; }
-  else { rank='F'; caption='Keep practicing — listen to the video again.'; }
+  else { rank='F'; caption='Keep practicing — listen to the audio again.'; }
 
   document.getElementById('rName').textContent = name;
   document.getElementById('rDate').textContent = new Date().toLocaleDateString();
@@ -843,7 +862,7 @@ document.getElementById('downloadBtn').addEventListener('click', () => {
   if(!d) return;
   const text =
 `LISTENING LAB — RESULT TICKET
-An Invitation to a Party (A2)
+Changing a Meeting Time (A2)
 ------------------------------
 Student:     ${d.name}
 Date:        ${d.date}
