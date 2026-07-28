@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hörverstehen B1 – Nicos Weg: Berufsberatung</title>
+<style>
+  :root{
+    --bg:#f6f5f2;
+    --card:#ffffff;
+    --ink:#26261f;
+    --muted:#6b675e;
+    --accent:#a6402c;
+    --accent2:#3d5a4a;
+    --good:#3d7a4d;
+    --bad:#b3402c;
+    --border:#e2ddd2;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: "Georgia", "Iowan Old Style", serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.5;
+    padding:24px 16px 80px;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+  header{
+    text-align:center;
+    margin-bottom:24px;
+  }
+  header h1{
+    font-size:1.7rem;
+    margin:0 0 6px;
+    color:var(--accent);
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.95rem;
+  }
+  .video-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:24px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.04);
+  }
+  .video-box h2{
+    font-size:1.05rem;
+    margin:0 0 10px;
+    color:var(--accent2);
+  }
+  .responsive-video{
+    position:relative;
+    width:100%;
+    padding-bottom:56.25%;
+    border-radius:6px;
+    overflow:hidden;
+    background:#000;
+  }
+  .responsive-video iframe{
+    position:absolute;top:0;left:0;width:100%;height:100%;border:0;
+  }
+  .instructions{
+    font-size:0.9rem;
+    color:var(--muted);
+    margin-top:10px;
+  }
+  .question{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:14px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.03);
+  }
+  .question p.q-text{
+    font-weight:bold;
+    margin:0 0 10px;
+  }
+  .q-num{
+    display:inline-block;
+    background:var(--accent2);
+    color:#fff;
+    font-family:sans-serif;
+    font-size:0.75rem;
+    padding:2px 8px;
+    border-radius:12px;
+    margin-right:8px;
+  }
+  label.option{
+    display:block;
+    padding:8px 10px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-bottom:6px;
+    transition:background 0.15s;
+  }
+  label.option:hover{background:#f1efe9;}
+  .question input[type="radio"]{margin-right:8px;}
+  .feedback{
+    margin-top:10px;
+    font-size:0.9rem;
+    font-family:sans-serif;
+    padding:8px 10px;
+    border-radius:6px;
+    display:none;
+  }
+  .feedback.correct{background:#e7f3e9;color:var(--good);display:block;}
+  .feedback.incorrect{background:#fbe9e6;color:var(--bad);display:block;}
+  .submit-bar{
+    text-align:center;
+    margin-top:28px;
+  }
+  button#submitBtn{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    font-family:sans-serif;
+    font-size:1rem;
+    padding:12px 28px;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  button#submitBtn:hover{background:#8a3323;}
+  #result{
+    text-align:center;
+    margin-top:20px;
+    font-family:sans-serif;
+    font-size:1.2rem;
+    font-weight:bold;
+  }
+  #result.show{display:block;}
+  #resultBox{
+    display:none;
+    background:var(--card);
+    border:2px solid var(--accent2);
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+    margin-top:24px;
+  }
+  .answered-flag{
+    font-family:sans-serif;
+    font-size:0.75rem;
+    color:var(--bad);
+    margin-top:6px;
+    display:none;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Hörverstehen B1 – "Berufsberatung"</h1>
+  <p>Nicos Weg (Deutsche Welle) &middot; Niveau B1 &middot; 15 Fragen</p>
+</header>
+
+<div class="video-box">
+  <h2>📺 Video: Nicos Weg – Folge 1: Berufsberatung</h2>
+  <div class="responsive-video">
+    <iframe src="https://www.youtube.com/embed/o1zJ-BNQrU0" title="Nicos Weg B1 Folge 1 Berufsberatung" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <p class="instructions">Schaut euch das Video an (ca. 4 Minuten) und beantwortet danach die 15 Fragen. Ihr könnt das Video mehrmals ansehen. Am Ende klickt ihr auf <strong>„Auswerten“</strong>, um eure Ergebnisse sofort zu sehen.</p>
+</div>
+
+<form id="quizForm">
+
+  <div class="question" data-answer="a">
+    <p class="q-text"><span class="q-num">1</span>Was braucht man laut der Beraterin für eine Ausbildung oder ein Studium?</p>
+    <label class="option"><input type="radio" name="q1" value="a"> Gute bis sehr gute Deutschkenntnisse</label>
+    <label class="option"><input type="radio" name="q1" value="b"> Nur einen Schulabschluss</label>
+    <label class="option"><input type="radio" name="q1" value="c"> Eine Arbeitserlaubnis</label>
+    <label class="option"><input type="radio" name="q1" value="d"> Viel Berufserfahrung</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="b">
+    <p class="q-text"><span class="q-num">2</span>Auf welchem Sprachniveau ist die Person gerade?</p>
+    <label class="option"><input type="radio" name="q2" value="a"> A2</label>
+    <label class="option"><input type="radio" name="q2" value="b"> B1</label>
+    <label class="option"><input type="radio" name="q2" value="c"> B2</label>
+    <label class="option"><input type="radio" name="q2" value="d"> C1</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="b">
+    <p class="q-text"><span class="q-num">3</span>Hat die Person schon eine A2-Prüfung abgelegt?</p>
+    <label class="option"><input type="radio" name="q3" value="a"> Ja, mit sehr guter Note</label>
+    <label class="option"><input type="radio" name="q3" value="b"> Nein, nur einen A2-Kurs gemacht</label>
+    <label class="option"><input type="radio" name="q3" value="c"> Ja, aber sie ist durchgefallen</label>
+    <label class="option"><input type="radio" name="q3" value="d"> Das wird im Video nicht erwähnt</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="c">
+    <p class="q-text"><span class="q-num">4</span>Was verlangen die meisten Betriebe als Nachweis über die Sprachkenntnisse?</p>
+    <label class="option"><input type="radio" name="q4" value="a"> Ein Empfehlungsschreiben</label>
+    <label class="option"><input type="radio" name="q4" value="b"> Ein polizeiliches Führungszeugnis</label>
+    <label class="option"><input type="radio" name="q4" value="c"> Eine Sprachprüfung / ein Zertifikat</label>
+    <label class="option"><input type="radio" name="q4" value="d"> Einen Universitätsabschluss</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="a">
+    <p class="q-text"><span class="q-num">5</span>Welchen Beruf zieht die unsichere Person zuerst in Betracht?</p>
+    <label class="option"><input type="radio" name="q5" value="a"> Schauspieler/in</label>
+    <label class="option"><input type="radio" name="q5" value="b"> Ärztin/Arzt</label>
+    <label class="option"><input type="radio" name="q5" value="c"> Ingenieur/in</label>
+    <label class="option"><input type="radio" name="q5" value="d"> Lehrer/in</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="d">
+    <p class="q-text"><span class="q-num">6</span>Warum beschreibt die Beraterin die Schauspielausbildung als schwierig?</p>
+    <label class="option"><input type="radio" name="q6" value="a"> Sie kostet sehr viel Geld</label>
+    <label class="option"><input type="radio" name="q6" value="b"> Man braucht dafür ein Studium</label>
+    <label class="option"><input type="radio" name="q6" value="c"> Es gibt diese Ausbildung in Deutschland nicht</label>
+    <label class="option"><input type="radio" name="q6" value="d"> Schwere Aufnahmeprüfung und schwieriger Arbeitsmarkt, keine Jobgarantie</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="c">
+    <p class="q-text"><span class="q-num">7</span>Was kann die Person laut eigener Aussage besonders gut?</p>
+    <label class="option"><input type="radio" name="q7" value="a"> Kochen</label>
+    <label class="option"><input type="radio" name="q7" value="b"> Programmieren</label>
+    <label class="option"><input type="radio" name="q7" value="c"> Fahrräder und Mopeds reparieren</label>
+    <label class="option"><input type="radio" name="q7" value="d"> Fremdsprachen unterrichten</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="b">
+    <p class="q-text"><span class="q-num">8</span>Wie lange lernt die Person schon Deutsch (laut ihrer eigenen, leicht falschen Aussage)?</p>
+    <label class="option"><input type="radio" name="q8" value="a"> Seit einem Monat</label>
+    <label class="option"><input type="radio" name="q8" value="b"> Seit einem Jahr</label>
+    <label class="option"><input type="radio" name="q8" value="c"> Seit zwei Jahren</label>
+    <label class="option"><input type="radio" name="q8" value="d"> Seit der Kindheit</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="a">
+    <p class="q-text"><span class="q-num">9</span>Welche zwei Sprachen spricht Selma zusätzlich zu Deutsch?</p>
+    <label class="option"><input type="radio" name="q9" value="a"> Arabisch und Armenisch</label>
+    <label class="option"><input type="radio" name="q9" value="b"> Türkisch und Kurdisch</label>
+    <label class="option"><input type="radio" name="q9" value="c"> Spanisch und Französisch</label>
+    <label class="option"><input type="radio" name="q9" value="d"> Persisch und Englisch</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="c">
+    <p class="q-text"><span class="q-num">10</span>Warum spricht auch Selmas Mutter eine zweite Sprache fließend?</p>
+    <label class="option"><input type="radio" name="q10" value="a"> Sie hat im Ausland studiert</label>
+    <label class="option"><input type="radio" name="q10" value="b"> Sie ist Übersetzerin von Beruf</label>
+    <label class="option"><input type="radio" name="q10" value="c"> Sie ist zweisprachig aufgewachsen</label>
+    <label class="option"><input type="radio" name="q10" value="d"> Sie hat einen Sprachkurs besucht</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="b">
+    <p class="q-text"><span class="q-num">11</span>Wie schätzt Selma ihre eigenen Englischkenntnisse ein?</p>
+    <label class="option"><input type="radio" name="q11" value="a"> Ausgezeichnet, fast muttersprachlich</label>
+    <label class="option"><input type="radio" name="q11" value="b"> Nicht so gut, obwohl sie einen Kurs in Syrien besucht hat</label>
+    <label class="option"><input type="radio" name="q11" value="c"> Sie spricht überhaupt kein Englisch</label>
+    <label class="option"><input type="radio" name="q11" value="d"> Besser als ihr Deutsch</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="d">
+    <p class="q-text"><span class="q-num">12</span>Welche Fremdsprachen lernt man laut Selma in der Schule in ihrer Heimat?</p>
+    <label class="option"><input type="radio" name="q12" value="a"> Nur Englisch</label>
+    <label class="option"><input type="radio" name="q12" value="b"> Deutsch und Spanisch</label>
+    <label class="option"><input type="radio" name="q12" value="c"> Italienisch und Russisch</label>
+    <label class="option"><input type="radio" name="q12" value="d"> Englisch und Französisch</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="a">
+    <p class="q-text"><span class="q-num">13</span>Für welche Studienfächer interessiert sich Selma?</p>
+    <label class="option"><input type="radio" name="q13" value="a"> Medizin oder Lehramt</label>
+    <label class="option"><input type="radio" name="q13" value="b"> Jura oder Betriebswirtschaft</label>
+    <label class="option"><input type="radio" name="q13" value="c"> Kunst oder Musik</label>
+    <label class="option"><input type="radio" name="q13" value="d"> Informatik oder Mathematik</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="c">
+    <p class="q-text"><span class="q-num">14</span>Wie reagiert die Lehrerin/Frau Brunner auf Selmas Entwicklung?</p>
+    <label class="option"><input type="radio" name="q14" value="a"> Sie macht sich Sorgen um Selma</label>
+    <label class="option"><input type="radio" name="q14" value="b"> Sie findet, Selma müsse mehr üben</label>
+    <label class="option"><input type="radio" name="q14" value="c"> Sie findet, dass Selma erstaunliche Fortschritte macht</label>
+    <label class="option"><input type="radio" name="q14" value="d"> Sie ist enttäuscht von Selmas Leistung</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="question" data-answer="b">
+    <p class="q-text"><span class="q-num">15</span>Was sagt Selmas Vater über seinen neuen Job im Vergleich zu seiner früheren Arbeit als Arzt?</p>
+    <label class="option"><input type="radio" name="q15" value="a"> Der neue Job gefällt ihm besser als die Arbeit als Arzt</label>
+    <label class="option"><input type="radio" name="q15" value="b"> Der Unterschied ist groß, aber Hauptsache ist, dass er überhaupt Arbeit hat</label>
+    <label class="option"><input type="radio" name="q15" value="c"> Er möchte so schnell wie möglich wieder als Arzt arbeiten und nichts anderes machen</label>
+    <label class="option"><input type="radio" name="q15" value="d"> Er hat noch keinen neuen Job gefunden</label>
+    <p class="answered-flag">Bitte eine Antwort auswählen.</p>
+    <div class="feedback"></div>
+  </div>
+
+  <div class="submit-bar">
+    <button type="button" id="submitBtn">✅ Auswerten</button>
+  </div>
+</form>
+
+<div id="resultBox">
+  <div id="result"></div>
+  <p id="resultDetail" style="font-family:sans-serif;color:var(--muted);font-size:0.9rem;"></p>
+</div>
+
+</div>
+
+<script>
+document.getElementById('submitBtn').addEventListener('click', function(){
+  const questions = document.querySelectorAll('.question');
+  let correctCount = 0;
+  let unanswered = 0;
+
+  questions.forEach(q => {
+    const correctAnswer = q.getAttribute('data-answer');
+    const name = q.querySelector('input[type="radio"]').name;
+    const selected = q.querySelector('input[name="' + name + '"]:checked');
+    const feedback = q.querySelector('.feedback');
+    const flag = q.querySelector('.answered-flag');
+
+    if (!selected) {
+      unanswered++;
+      flag.style.display = 'block';
+      feedback.style.display = 'none';
+      return;
+    }
+    flag.style.display = 'none';
+
+    if (selected.value === correctAnswer) {
+      correctCount++;
+      feedback.textContent = '✔ Richtig!';
+      feedback.className = 'feedback correct';
+    } else {
+      const correctLabel = q.querySelector('input[value="' + correctAnswer + '"]').parentElement.textContent.trim();
+      feedback.textContent = '✘ Leider falsch. Richtige Antwort: ' + correctLabel;
+      feedback.className = 'feedback incorrect';
+    }
+  });
+
+  const resultBox = document.getElementById('resultBox');
+  const result = document.getElementById('result');
+  const detail = document.getElementById('resultDetail');
+  const total = questions.length;
+
+  resultBox.style.display = 'block';
+
+  if (unanswered > 0) {
+    result.textContent = 'Bitte alle Fragen beantworten (' + unanswered + ' offen).';
+    result.style.color = 'var(--bad)';
+    detail.textContent = '';
+  } else {
+    const percent = Math.round((correctCount/total)*100);
+    result.textContent = 'Ergebnis: ' + correctCount + ' / ' + total + ' (' + percent + '%)';
+    result.style.color = percent >= 60 ? 'var(--good)' : 'var(--bad)';
+    if (percent === 100) detail.textContent = 'Perfekt! Ausgezeichnetes Hörverstehen. 🎉';
+    else if (percent >= 80) detail.textContent = 'Sehr gut gemacht!';
+    else if (percent >= 60) detail.textContent = 'Bestanden – gut gemacht, aber schaut euch ein paar Stellen noch einmal an.';
+    else detail.textContent = 'Schaut euch das Video noch einmal an und versucht es erneut.';
+  }
+
+  resultBox.scrollIntoView({behavior:'smooth', block:'center'});
+});
+</script>
+
+</body>
+</html>
