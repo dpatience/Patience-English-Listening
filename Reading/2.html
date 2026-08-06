@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artificial Intelligence: The Machine That Learns — Reading &amp; Quiz</title>
+<style>
+  :root{
+    --paper:#F4F2F6;
+    --paper-line:#DAD5E2;
+    --ink:#262233;
+    --ink-soft:#5B5568;
+    --accent-teal:#1F6F78;
+    --accent-mustard:#D9A441;
+    --correct:#3F9142;
+    --correct-bg:#E9F5EA;
+    --incorrect:#C4453A;
+    --incorrect-bg:#FBEAE8;
+    --card:#FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 2.1em;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    padding: 0 0 4rem 0;
+  }
+
+  header{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .eyebrow{
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+
+  h1{
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 2.1rem;
+    line-height: 1.15;
+    margin: 0 0 0.5rem 0;
+    color: var(--ink);
+  }
+
+  .subtitle{
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+
+  .passage{
+    max-width: 780px;
+    margin: 0 auto 2.5rem auto;
+    padding: 1.75rem 1.9rem;
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    box-shadow: 0 1px 0 var(--paper-line);
+  }
+
+  .passage p{
+    margin: 0 0 1.1rem 0;
+    font-size: 1.02rem;
+  }
+  .passage p:last-child{ margin-bottom: 0; }
+
+  /* Sticky exam progress bar */
+  .exam-bar{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(244,242,246,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--paper-line);
+    padding: 0.7rem 1.5rem;
+  }
+
+  .exam-bar-inner{
+    max-width: 780px;
+    margin: 0 auto;
+    display:flex;
+    align-items:center;
+    gap: 1rem;
+  }
+
+  .exam-bar-label{
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .exam-progress-track{
+    flex:1;
+    height: 8px;
+    background: var(--paper-line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .exam-progress-fill{
+    height: 100%;
+    width: 0%;
+    background: var(--accent-teal);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+
+  .exam-progress-count{
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quiz-header{
+    max-width: 780px;
+    margin: 0 auto 1.2rem auto;
+    padding: 0 1.5rem;
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .quiz-header h2{
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .quiz-header .hint{
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  main.quiz{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .question{
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .question .qnum{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--accent-teal);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .question .qtext{
+    display:flex;
+    align-items:flex-start;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .options{
+    display:flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2.2rem;
+  }
+
+  .option{
+    display:flex;
+    align-items:center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 9px;
+    border: 1px solid var(--paper-line);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .option:hover{ border-color: var(--accent-teal); }
+
+  .option input{ accent-color: var(--accent-teal); }
+
+  .option.correct-answer{
+    background: var(--correct-bg);
+    border-color: var(--correct);
+  }
+
+  .option.wrong-answer{
+    background: var(--incorrect-bg);
+    border-color: var(--incorrect);
+  }
+
+  .feedback{
+    margin: 0.7rem 0 0 2.2rem;
+    font-size: 0.88rem;
+    display:none;
+  }
+
+  .feedback.show{ display:block; }
+
+  .feedback .tag{
+    font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  .feedback.correct .tag{ color: var(--correct); }
+  .feedback.incorrect .tag{ color: var(--incorrect); }
+
+  .question.graded-correct{ border-color: var(--correct); }
+  .question.graded-incorrect{ border-color: var(--incorrect); }
+
+  .reflection-box{
+    background: var(--card);
+    border: 1px dashed var(--paper-line);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reflection-box .qtext{ font-weight:600; margin-bottom: 0.7rem; display:flex; align-items:flex-start;}
+  .reflection-box textarea{
+    border-radius: 9px;
+    border: 1px solid var(--paper-line);
+    padding: 0.7rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    margin-left: 2.2rem;
+    width: calc(100% - 2.2rem);
+    min-height: 70px;
+  }
+
+  .reflection-note{
+    margin: 0.5rem 0 0 2.2rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .actions{
+    display:flex;
+    gap: 0.75rem;
+    align-items:center;
+    margin: 1.5rem 0 2.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  button#checkBtn, button#resetBtn{
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    cursor: pointer;
+    border: none;
+  }
+
+  button#checkBtn{
+    background: var(--accent-teal);
+    color: white;
+  }
+  button#checkBtn:hover{ background: #185961; }
+  button#checkBtn:disabled{ background: #A9C6C9; cursor: not-allowed; }
+
+  button#resetBtn{
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--paper-line);
+  }
+  button#resetBtn:hover{ border-color: var(--ink-soft); }
+
+  .unanswered-note{
+    font-size: 0.85rem;
+    color: var(--incorrect);
+    display:none;
+  }
+  .unanswered-note.show{ display:block; }
+
+  /* Score seal */
+  #scorePanel{
+    display:none;
+    max-width: 780px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1.5rem;
+  }
+  #scorePanel.show{ display:block; }
+
+  .score-card{
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 16px;
+    padding: 1.6rem;
+    display:flex;
+    align-items:center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .seal{
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+  }
+
+  .score-text h3{
+    font-family: Georgia, serif;
+    margin: 0 0 0.3rem 0;
+    font-size: 1.25rem;
+  }
+
+  .score-text p{
+    margin:0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  footer{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">B1 Reading &middot; Comprehension Quiz</div>
+  <h1>Artificial Intelligence: The Machine That Learns</h1>
+  <div class="subtitle">Read the passage carefully, then answer the questions below. Your progress bar fills in as you answer.</div>
+</header>
+
+<section class="passage">
+  <p>Fifty years ago, artificial intelligence, or "AI," was mostly an idea from science fiction movies. Robots that could think, talk, and make decisions seemed like something far in the future. Today, that future has arrived faster than anyone expected. AI is now part of daily life for millions of people, even if they do not always notice it. When your phone suggests a word while you are typing, when a music app recommends a new song, or when a video platform knows exactly what you want to watch next — all of this is artificial intelligence working quietly in the background.</p>
+
+  <p>So what exactly is artificial intelligence? In simple terms, AI is a type of computer program that can learn from information and improve over time, similar to how humans learn from experience. Instead of following one fixed set of instructions, an AI system studies huge amounts of data — text, images, sounds, or numbers — and finds patterns inside it. For example, if an AI program looks at millions of photos of cats, it eventually learns what a cat looks like, without a human explaining every detail. This process is called "machine learning," and it is the foundation of most modern AI systems.</p>
+
+  <p>One of the most exciting developments in recent years is the rise of AI chatbots, programs that can have a conversation almost like a real person. These systems can answer questions, write essays, translate languages, and even help students with their homework. For many teenagers, using an AI chatbot to check grammar or brainstorm ideas has become as normal as using a calculator. However, this new technology also raises an important question: if a machine can write an essay or solve a math problem, what should students still learn to do by themselves? Many teachers argue that AI should be used as a tool to support learning, not to replace the hard work of thinking, just as a calculator helps with mathematics but does not teach a person how numbers actually work.</p>
+
+  <p>AI is not only changing education; it is transforming almost every industry in the world. In medicine, AI programs can look at X-ray images and help doctors find signs of illness that are difficult to see with the human eye alone. In transportation, self-driving cars use AI to recognize traffic lights, other vehicles, and pedestrians on the road. In agriculture, AI-powered machines can check the health of crops across huge fields, helping farmers use water and fertilizer more efficiently. Even in creative fields like art and music, AI tools can now generate original images or compose melodies, which has started new discussions about creativity: can a machine truly be creative, or is it only copying patterns from human-made work?</p>
+
+  <p>Despite its many benefits, artificial intelligence also brings serious challenges. One major concern is job loss. As AI systems become more capable, some jobs that were once done by humans — such as certain factory tasks, customer service roles, or basic data entry — may be done by machines instead. Experts disagree about how big this change will be, but most agree that workers will need new skills to work alongside AI rather than compete against it. Another concern is privacy. AI systems often need large amounts of personal data to work well, which raises questions about who owns that data and how it should be protected. Finally, there is the issue of bias: if an AI system learns from information created by humans, it can accidentally learn human mistakes and unfair patterns too, which can lead to unfair decisions in areas like hiring or lending money.</p>
+
+  <p>Because of these challenges, governments, universities, and technology companies around the world are now working together to create rules for AI, often called "AI ethics." The goal is to make sure that as this powerful technology grows, it is used in ways that are safe, fair, and helpful for everyone, not just a small group of people or companies. Some countries have already started writing laws about how companies can collect data or use AI in sensitive areas, like healthcare or education.</p>
+
+  <p>For today's students, understanding AI is quickly becoming as important as understanding how to use the internet was twenty years ago. Whatever career a student chooses in the future — medicine, art, engineering, business, or teaching — artificial intelligence will likely be part of that world in some way. The students who succeed will probably not be the ones who avoid AI completely, but the ones who learn to use it wisely, while still thinking critically and creatively on their own. In the end, the most powerful tool in the room is not the machine — it is the human mind that knows how to use it well.</p>
+</section>
+
+<div class="exam-bar">
+  <div class="exam-bar-inner">
+    <span class="exam-bar-label">Progress</span>
+    <div class="exam-progress-track"><div class="exam-progress-fill" id="progressFill"></div></div>
+    <span class="exam-progress-count" id="progressCount">0 / 8 answered</span>
+  </div>
+</div>
+
+<div class="quiz-header">
+  <h2>Check your understanding</h2>
+  <div class="hint">8 graded questions + 1 reflection question</div>
+</div>
+
+<main class="quiz">
+
+  <form id="quizForm">
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">1</span>What is "machine learning," according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="a"> A robot that can repair itself</label>
+        <label class="option"><input type="radio" name="q1" value="b"> A process where a computer studies data and finds patterns to improve over time</label>
+        <label class="option"><input type="radio" name="q1" value="c"> A machine that only follows one fixed set of instructions</label>
+        <label class="option"><input type="radio" name="q1" value="d"> A type of computer hardware chip</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">2</span>Which example of everyday AI is mentioned at the start of the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="a"> A calculator app</label>
+        <label class="option"><input type="radio" name="q2" value="b"> A GPS map</label>
+        <label class="option"><input type="radio" name="q2" value="c"> A phone suggesting a word while you type</label>
+        <label class="option"><input type="radio" name="q2" value="d"> A washing machine</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">3</span>Why do some teachers worry about students using AI chatbots for schoolwork?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="a"> AI chatbots are too slow to use in class</label>
+        <label class="option"><input type="radio" name="q3" value="b"> AI chatbots cost too much money for schools</label>
+        <label class="option"><input type="radio" name="q3" value="c"> Students might stop practicing their own thinking skills</label>
+        <label class="option"><input type="radio" name="q3" value="d"> AI chatbots only work in one language</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">4</span>According to the text, how is AI used in medicine?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="a"> It replaces doctors completely</label>
+        <label class="option"><input type="radio" name="q4" value="b"> It helps doctors find signs of illness in X-ray images</label>
+        <label class="option"><input type="radio" name="q4" value="c"> It writes prescriptions without any doctor involved</label>
+        <label class="option"><input type="radio" name="q4" value="d"> It only manages hospital payments</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">5</span>What does "bias" in AI mean, according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="a"> When an AI system works too slowly</label>
+        <label class="option"><input type="radio" name="q5" value="b"> When an AI system learns unfair patterns from human-made data</label>
+        <label class="option"><input type="radio" name="q5" value="c"> When an AI system uses too much electricity</label>
+        <label class="option"><input type="radio" name="q5" value="d"> When an AI system cannot connect to the internet</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">6</span>What is the purpose of "AI ethics," according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q6" value="a"> To make AI systems run faster</label>
+        <label class="option"><input type="radio" name="q6" value="b"> To make sure AI is used safely and fairly for everyone</label>
+        <label class="option"><input type="radio" name="q6" value="c"> To stop all use of AI around the world</label>
+        <label class="option"><input type="radio" name="q6" value="d"> To help companies earn more money from AI</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">7</span>According to the writer, which kind of student will "succeed" in a world with AI?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q7" value="a"> Students who avoid AI completely</label>
+        <label class="option"><input type="radio" name="q7" value="b"> Students who let AI do all their thinking for them</label>
+        <label class="option"><input type="radio" name="q7" value="c"> Students who use AI wisely while still thinking critically and creatively</label>
+        <label class="option"><input type="radio" name="q7" value="d"> Students who study only AI and nothing else</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">8</span>What comparison does the text make between calculators and AI?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q8" value="a"> Calculators are more dangerous than AI</label>
+        <label class="option"><input type="radio" name="q8" value="b"> A calculator helps with math but doesn't teach how numbers work — AI can support learning but shouldn't replace thinking</label>
+        <label class="option"><input type="radio" name="q8" value="c"> Calculators and AI work in exactly the same way</label>
+        <label class="option"><input type="radio" name="q8" value="d"> Calculators will soon be completely replaced by AI</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="reflection-box">
+      <div class="qtext"><span class="qnum">9</span>Do you already use AI tools in your daily life? Which ones, and how do they help (or not help) you?</div>
+      <textarea placeholder="Write 2–3 sentences in English..."></textarea>
+      <div class="reflection-note">This is a reflection question — there is no single correct answer, so it is not included in the score.</div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="checkBtn">Check my answers</button>
+      <button type="button" id="resetBtn">Try again</button>
+      <div class="unanswered-note" id="unansweredNote">Please answer all 8 questions before checking.</div>
+    </div>
+
+  </form>
+
+</main>
+
+<div id="scorePanel">
+  <div class="score-card">
+    <svg class="seal" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#DAD5E2" stroke-width="10"/>
+      <circle id="scoreRing" cx="50" cy="50" r="42" fill="none" stroke="#1F6F78" stroke-width="10"
+              stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264"/>
+      <text id="scoreText" x="50" y="56" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#262233">0/8</text>
+    </svg>
+    <div class="score-text">
+      <h3 id="scoreHeadline">Your result</h3>
+      <p id="scoreDetail">Correct answers are shown in green next to each question. Incorrect choices are shown in red, with the right answer marked.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Reading &amp; quiz prepared for B1-level ESL students.</footer>
+
+<script>
+  const form = document.getElementById('quizForm');
+  const checkBtn = document.getElementById('checkBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const unansweredNote = document.getElementById('unansweredNote');
+  const scorePanel = document.getElementById('scorePanel');
+  const scoreRing = document.getElementById('scoreRing');
+  const scoreText = document.getElementById('scoreText');
+  const scoreHeadline = document.getElementById('scoreHeadline');
+  const scoreDetail = document.getElementById('scoreDetail');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+
+  const questions = Array.from(document.querySelectorAll('.question'));
+  const totalQuestions = questions.length;
+
+  function updateProgress(){
+    const answered = questions.filter(q => {
+      const name = q.querySelector('input[type=radio]').name;
+      return form.querySelector('input[name="' + name + '"]:checked');
+    }).length;
+    progressFill.style.width = (answered / totalQuestions * 100) + '%';
+    progressCount.textContent = answered + ' / ' + totalQuestions + ' answered';
+  }
+
+  form.addEventListener('change', updateProgress);
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const allAnswered = questions.every(q => {
+      const name = q.querySelector('input[type=radio]').name;
+      return form.querySelector('input[name="' + name + '"]:checked');
+    });
+
+    if(!allAnswered){
+      unansweredNote.classList.add('show');
+      return;
+    }
+    unansweredNote.classList.remove('show');
+
+    let score = 0;
+
+    questions.forEach(q => {
+      const correctVal = q.getAttribute('data-correct');
+      const name = q.querySelector('input[type=radio]').name;
+      const selected = form.querySelector('input[name="' + name + '"]:checked');
+      const selectedVal = selected.value;
+      const options = q.querySelectorAll('.option');
+      const feedback = q.querySelector('.feedback');
+
+      options.forEach(opt => {
+        const val = opt.querySelector('input').value;
+        if(val === correctVal){
+          opt.classList.add('correct-answer');
+        }
+        if(val === selectedVal && val !== correctVal){
+          opt.classList.add('wrong-answer');
+        }
+      });
+
+      feedback.classList.add('show');
+
+      if(selectedVal === correctVal){
+        score++;
+        q.classList.add('graded-correct');
+        feedback.classList.add('correct');
+        feedback.innerHTML = '<span class="tag">Correct.</span> Well done — that matches the passage.';
+      } else {
+        q.classList.add('graded-incorrect');
+        feedback.classList.add('incorrect');
+        const correctLabelEl = q.querySelector('.option input[value="' + correctVal + '"]').closest('.option');
+        const correctLabelText = correctLabelEl.textContent.trim();
+        feedback.innerHTML = '<span class="tag">Not quite.</span> The correct answer is: "' + correctLabelText + '"';
+      }
+
+      q.querySelectorAll('input').forEach(inp => inp.disabled = true);
+    });
+
+    const pct = score / totalQuestions;
+    const circumference = 264;
+    scoreRing.setAttribute('stroke-dashoffset', circumference - (circumference * pct));
+    scoreText.textContent = score + '/' + totalQuestions;
+
+    if(pct === 1){
+      scoreHeadline.textContent = 'Excellent — perfect score!';
+      scoreRing.setAttribute('stroke', '#3F9142');
+    } else if(pct >= 0.6){
+      scoreHeadline.textContent = 'Good work!';
+      scoreRing.setAttribute('stroke', '#1F6F78');
+    } else {
+      scoreHeadline.textContent = 'Keep practicing.';
+      scoreRing.setAttribute('stroke', '#C4453A');
+    }
+    scoreDetail.textContent = 'You answered ' + score + ' out of ' + totalQuestions + ' questions correctly. Scroll up to review the correct answers for each question.';
+
+    scorePanel.classList.add('show');
+    checkBtn.disabled = true;
+    scorePanel.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  resetBtn.addEventListener('click', function(){
+    form.reset();
+    questions.forEach(q => {
+      q.classList.remove('graded-correct','graded-incorrect');
+      q.querySelectorAll('input').forEach(inp => inp.disabled = false);
+      q.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct-answer','wrong-answer'));
+      const fb = q.querySelector('.feedback');
+      fb.classList.remove('show','correct','incorrect');
+      fb.innerHTML = '';
+    });
+    scorePanel.classList.remove('show');
+    checkBtn.disabled = false;
+    unansweredNote.classList.remove('show');
+    updateProgress();
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
