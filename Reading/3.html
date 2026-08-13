@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space Exploration: Humanity's Next Giant Leap — Reading &amp; Quiz</title>
+<style>
+  :root{
+    --paper:#F4F2F6;
+    --paper-line:#DAD5E2;
+    --ink:#262233;
+    --ink-soft:#5B5568;
+    --accent-teal:#1F6F78;
+    --accent-mustard:#D9A441;
+    --correct:#3F9142;
+    --correct-bg:#E9F5EA;
+    --incorrect:#C4453A;
+    --incorrect-bg:#FBEAE8;
+    --card:#FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 2.1em;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    padding: 0 0 4rem 0;
+  }
+
+  header{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .eyebrow{
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+
+  h1{
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 2.1rem;
+    line-height: 1.15;
+    margin: 0 0 0.5rem 0;
+    color: var(--ink);
+  }
+
+  .subtitle{
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+
+  .passage{
+    max-width: 780px;
+    margin: 0 auto 2.5rem auto;
+    padding: 1.75rem 1.9rem;
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    box-shadow: 0 1px 0 var(--paper-line);
+  }
+
+  .passage p{
+    margin: 0 0 1.1rem 0;
+    font-size: 1.02rem;
+  }
+  .passage p:last-child{ margin-bottom: 0; }
+
+  .exam-bar{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(244,242,246,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--paper-line);
+    padding: 0.7rem 1.5rem;
+  }
+
+  .exam-bar-inner{
+    max-width: 780px;
+    margin: 0 auto;
+    display:flex;
+    align-items:center;
+    gap: 1rem;
+  }
+
+  .exam-bar-label{
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .exam-progress-track{
+    flex:1;
+    height: 8px;
+    background: var(--paper-line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .exam-progress-fill{
+    height: 100%;
+    width: 0%;
+    background: var(--accent-teal);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+
+  .exam-progress-count{
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quiz-header{
+    max-width: 780px;
+    margin: 0 auto 1.2rem auto;
+    padding: 0 1.5rem;
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .quiz-header h2{
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .quiz-header .hint{
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  main.quiz{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .question{
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .question .qnum{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--accent-teal);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .question .qtext{
+    display:flex;
+    align-items:flex-start;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .options{
+    display:flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2.2rem;
+  }
+
+  .option{
+    display:flex;
+    align-items:center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 9px;
+    border: 1px solid var(--paper-line);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .option:hover{ border-color: var(--accent-teal); }
+
+  .option input{ accent-color: var(--accent-teal); }
+
+  .option.correct-answer{
+    background: var(--correct-bg);
+    border-color: var(--correct);
+  }
+
+  .option.wrong-answer{
+    background: var(--incorrect-bg);
+    border-color: var(--incorrect);
+  }
+
+  .feedback{
+    margin: 0.7rem 0 0 2.2rem;
+    font-size: 0.88rem;
+    display:none;
+  }
+
+  .feedback.show{ display:block; }
+
+  .feedback .tag{
+    font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  .feedback.correct .tag{ color: var(--correct); }
+  .feedback.incorrect .tag{ color: var(--incorrect); }
+
+  .question.graded-correct{ border-color: var(--correct); }
+  .question.graded-incorrect{ border-color: var(--incorrect); }
+
+  .reflection-box{
+    background: var(--card);
+    border: 1px dashed var(--paper-line);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reflection-box .qtext{ font-weight:600; margin-bottom: 0.7rem; display:flex; align-items:flex-start;}
+  .reflection-box textarea{
+    border-radius: 9px;
+    border: 1px solid var(--paper-line);
+    padding: 0.7rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    margin-left: 2.2rem;
+    width: calc(100% - 2.2rem);
+    min-height: 70px;
+  }
+
+  .reflection-note{
+    margin: 0.5rem 0 0 2.2rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .actions{
+    display:flex;
+    gap: 0.75rem;
+    align-items:center;
+    margin: 1.5rem 0 2.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  button#checkBtn, button#resetBtn{
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    cursor: pointer;
+    border: none;
+  }
+
+  button#checkBtn{
+    background: var(--accent-teal);
+    color: white;
+  }
+  button#checkBtn:hover{ background: #185961; }
+  button#checkBtn:disabled{ background: #A9C6C9; cursor: not-allowed; }
+
+  button#resetBtn{
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--paper-line);
+  }
+  button#resetBtn:hover{ border-color: var(--ink-soft); }
+
+  .unanswered-note{
+    font-size: 0.85rem;
+    color: var(--incorrect);
+    display:none;
+  }
+  .unanswered-note.show{ display:block; }
+
+  #scorePanel{
+    display:none;
+    max-width: 780px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1.5rem;
+  }
+  #scorePanel.show{ display:block; }
+
+  .score-card{
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 16px;
+    padding: 1.6rem;
+    display:flex;
+    align-items:center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .seal{
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+  }
+
+  .score-text h3{
+    font-family: Georgia, serif;
+    margin: 0 0 0.3rem 0;
+    font-size: 1.25rem;
+  }
+
+  .score-text p{
+    margin:0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  footer{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">B1 Reading &middot; Comprehension Quiz</div>
+  <h1>Space Exploration: Humanity's Next Giant Leap</h1>
+  <div class="subtitle">Read the passage carefully, then answer the questions below. Your progress bar fills in as you answer.</div>
+</header>
+
+<section class="passage">
+  <p>On July 20, 1969, millions of people around the world sat in front of their television screens and watched something that had never happened before: a human being walked on the Moon. Astronaut Neil Armstrong stepped onto the grey, dusty surface and said words that are still famous today: "That's one small step for man, one giant leap for mankind." For a moment, the entire planet felt connected by one incredible achievement. More than fifty years later, humanity is preparing for an even bigger adventure — sending astronauts back to the Moon, and eventually, to Mars.</p>
+
+  <p>Space exploration did not begin with the Moon landing. It started years earlier, during a period of history called the "Space Race," when two powerful countries, the United States and the Soviet Union, competed to see who could achieve more in space. In 1957, the Soviet Union launched Sputnik, the first artificial satellite, shocking the world and starting a new era of technology. Four years later, in 1961, a Soviet astronaut named Yuri Gagarin became the first human to travel into space, orbiting the Earth in just 108 minutes. These early missions were dangerous and full of unknown risks, but they proved that space travel was possible.</p>
+
+  <p>Today, space exploration is no longer only about competition between two countries; it has become a global effort involving many nations and even private companies. The International Space Station, often called the ISS, is a huge laboratory that orbits Earth at a speed of about 28,000 kilometers per hour. Astronauts from different countries live and work together on the ISS, conducting scientific experiments that cannot be done on Earth, such as studying how the human body changes without gravity. This research helps scientists prepare for longer space journeys in the future, including a possible trip to Mars, which could take astronauts more than six months just to arrive.</p>
+
+  <p>One of the biggest changes in modern space exploration is the involvement of private companies. In the past, only governments had the money and technology to send rockets into space. Now, private companies build and launch their own rockets, some of which can be used again instead of being thrown away after one flight. This idea, called "reusable rockets," has made space travel much cheaper than before. Some companies are even planning to send ordinary people, not just professional astronauts, on short trips to space as tourists — something that seemed impossible only twenty years ago.</p>
+
+  <p>But why do humans spend so much time, money, and energy exploring space? One important reason is scientific discovery. By studying other planets, moons, and stars, scientists can learn more about how our own planet was formed and how it might change in the future. Space telescopes, like powerful cameras that orbit far above Earth's atmosphere, have taken incredible photographs of galaxies that are billions of light-years away, helping us understand the size and age of the universe. Some missions search for signs of water or even life on other planets, such as Mars, which scientists believe may have had liquid water millions of years ago.</p>
+
+  <p>Another reason is survival. Some scientists argue that exploring other planets is important for the long-term future of humanity. Earth faces many challenges, including climate change, natural disasters, and the possibility of an asteroid impact. Although no one expects humans to leave Earth completely anytime soon, having the technology and knowledge to live on another planet, such as Mars, could one day protect our species from complete disaster. Building a small human settlement on Mars is no longer just an idea from science fiction; space agencies and private companies are actively researching how this could become reality within the next few decades.</p>
+
+  <p>Space exploration also inspires people in a way that few other fields can. It pushes engineers, scientists, and even artists to imagine what is possible beyond the limits of our own planet. Many of today's most important technologies, including satellite communication, GPS navigation, and even some medical equipment, were first developed because of research related to space missions. For students today, space exploration represents one of the biggest and most exciting frontiers of human knowledge, a field where mathematics, physics, biology, and engineering all come together for one enormous shared goal.</p>
+
+  <p>Humanity's journey into space is far from finished. In the coming years, new missions will attempt to land astronauts on the Moon again, build long-term Moon bases, and eventually send the first humans to walk on Mars. Whether or not this generation of students becomes astronauts themselves, they will certainly live through some of the most important moments in the history of space exploration — a story that began with one small step, and is still being written today.</p>
+</section>
+
+<div class="exam-bar">
+  <div class="exam-bar-inner">
+    <span class="exam-bar-label">Progress</span>
+    <div class="exam-progress-track"><div class="exam-progress-fill" id="progressFill"></div></div>
+    <span class="exam-progress-count" id="progressCount">0 / 8 answered</span>
+  </div>
+</div>
+
+<div class="quiz-header">
+  <h2>Check your understanding</h2>
+  <div class="hint">8 graded questions + 1 reflection question</div>
+</div>
+
+<main class="quiz">
+
+  <form id="quizForm">
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">1</span>What happened on July 20, 1969, according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="a"> The Soviet Union launched Sputnik</label>
+        <label class="option"><input type="radio" name="q1" value="b"> A human being walked on the Moon for the first time</label>
+        <label class="option"><input type="radio" name="q1" value="c"> The International Space Station was built</label>
+        <label class="option"><input type="radio" name="q1" value="d"> The first private rocket was launched</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">2</span>What was the "Space Race," according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="a"> A competition to build the fastest rocket engine</label>
+        <label class="option"><input type="radio" name="q2" value="b"> A race between private companies to reach Mars</label>
+        <label class="option"><input type="radio" name="q2" value="c"> A period when the US and the Soviet Union competed to achieve more in space</label>
+        <label class="option"><input type="radio" name="q2" value="d"> A sports competition held on the Moon</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">3</span>What kind of research do astronauts do on the International Space Station (ISS)?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="a"> They build new rockets to sell to tourists</label>
+        <label class="option"><input type="radio" name="q3" value="b"> They study things like how the human body changes without gravity</label>
+        <label class="option"><input type="radio" name="q3" value="c"> They repair old satellites from the 1960s</label>
+        <label class="option"><input type="radio" name="q3" value="d"> They grow food only for people on Earth</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">4</span>What does "reusable rockets" mean, according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="a"> Rockets that are only used by one country</label>
+        <label class="option"><input type="radio" name="q4" value="b"> Rockets that fly without any astronauts inside</label>
+        <label class="option"><input type="radio" name="q4" value="c"> Rockets that can be used again instead of thrown away after one flight</label>
+        <label class="option"><input type="radio" name="q4" value="d"> Rockets that are built entirely by governments</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="a">
+      <div class="qtext"><span class="qnum">5</span>According to the text, why do space telescopes matter to scientists?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="a"> They help us understand the size and age of the universe</label>
+        <label class="option"><input type="radio" name="q5" value="b"> They allow tourists to take vacation photos</label>
+        <label class="option"><input type="radio" name="q5" value="c"> They are used only to watch weather on Earth</label>
+        <label class="option"><input type="radio" name="q5" value="d"> They replace the need for the ISS</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="d">
+      <div class="qtext"><span class="qnum">6</span>Why do some scientists say that exploring other planets is important for "survival," according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q6" value="a"> Because Earth will run out of space for cities</label>
+        <label class="option"><input type="radio" name="q6" value="b"> Because Mars has more natural resources than Earth</label>
+        <label class="option"><input type="radio" name="q6" value="c"> Because astronauts want to escape crowded cities</label>
+        <label class="option"><input type="radio" name="q6" value="d"> Because having the ability to live on another planet could protect humanity from disasters on Earth</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">7</span>According to the text, what is one example of everyday technology that came from space research?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q7" value="a"> Television remote controls</label>
+        <label class="option"><input type="radio" name="q7" value="b"> GPS navigation</label>
+        <label class="option"><input type="radio" name="q7" value="c"> Electric cars</label>
+        <label class="option"><input type="radio" name="q7" value="d"> Video game consoles</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">8</span>What is the writer's main message in the final paragraph?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q8" value="a"> Space exploration is finished and complete</label>
+        <label class="option"><input type="radio" name="q8" value="b"> Only astronauts will experience important space discoveries</label>
+        <label class="option"><input type="radio" name="q8" value="c"> Today's students will likely witness major future moments in space exploration</label>
+        <label class="option"><input type="radio" name="q8" value="d"> Mars missions have already been cancelled</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="reflection-box">
+      <div class="qtext"><span class="qnum">9</span>If you could travel to space, would you want to go? Why or why not?</div>
+      <textarea placeholder="Write 2–3 sentences in English..."></textarea>
+      <div class="reflection-note">This is a reflection question — there is no single correct answer, so it is not included in the score.</div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="checkBtn">Check my answers</button>
+      <button type="button" id="resetBtn">Try again</button>
+      <div class="unanswered-note" id="unansweredNote">Please answer all 8 questions before checking.</div>
+    </div>
+
+  </form>
+
+</main>
+
+<div id="scorePanel">
+  <div class="score-card">
+    <svg class="seal" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#DAD5E2" stroke-width="10"/>
+      <circle id="scoreRing" cx="50" cy="50" r="42" fill="none" stroke="#1F6F78" stroke-width="10"
+              stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264"/>
+      <text id="scoreText" x="50" y="56" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#262233">0/8</text>
+    </svg>
+    <div class="score-text">
+      <h3 id="scoreHeadline">Your result</h3>
+      <p id="scoreDetail">Correct answers are shown in green next to each question. Incorrect choices are shown in red, with the right answer marked.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Reading &amp; quiz prepared for B1-level ESL students.</footer>
+
+<script>
+  const form = document.getElementById('quizForm');
+  const checkBtn = document.getElementById('checkBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const unansweredNote = document.getElementById('unansweredNote');
+  const scorePanel = document.getElementById('scorePanel');
+  const scoreRing = document.getElementById('scoreRing');
+  const scoreText = document.getElementById('scoreText');
+  const scoreHeadline = document.getElementById('scoreHeadline');
+  const scoreDetail = document.getElementById('scoreDetail');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+
+  const questions = Array.from(document.querySelectorAll('.question'));
+  const totalQuestions = questions.length;
+
+  function updateProgress(){
+    const answered = questions.filter(q => {
+      const name = q.querySelector('input[type=radio]').name;
+      return form.querySelector('input[name="' + name + '"]:checked');
+    }).length;
+    progressFill.style.width = (answered / totalQuestions * 100) + '%';
+    progressCount.textContent = answered + ' / ' + totalQuestions + ' answered';
+  }
+
+  form.addEventListener('change', updateProgress);
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const allAnswered = questions.every(q => {
+      const name = q.querySelector('input[type=radio]').name;
+      return form.querySelector('input[name="' + name + '"]:checked');
+    });
+
+    if(!allAnswered){
+      unansweredNote.classList.add('show');
+      return;
+    }
+    unansweredNote.classList.remove('show');
+
+    let score = 0;
+
+    questions.forEach(q => {
+      const correctVal = q.getAttribute('data-correct');
+      const name = q.querySelector('input[type=radio]').name;
+      const selected = form.querySelector('input[name="' + name + '"]:checked');
+      const selectedVal = selected.value;
+      const options = q.querySelectorAll('.option');
+      const feedback = q.querySelector('.feedback');
+
+      options.forEach(opt => {
+        const val = opt.querySelector('input').value;
+        if(val === correctVal){
+          opt.classList.add('correct-answer');
+        }
+        if(val === selectedVal && val !== correctVal){
+          opt.classList.add('wrong-answer');
+        }
+      });
+
+      feedback.classList.add('show');
+
+      if(selectedVal === correctVal){
+        score++;
+        q.classList.add('graded-correct');
+        feedback.classList.add('correct');
+        feedback.innerHTML = '<span class="tag">Correct.</span> Well done — that matches the passage.';
+      } else {
+        q.classList.add('graded-incorrect');
+        feedback.classList.add('incorrect');
+        const correctLabelEl = q.querySelector('.option input[value="' + correctVal + '"]').closest('.option');
+        const correctLabelText = correctLabelEl.textContent.trim();
+        feedback.innerHTML = '<span class="tag">Not quite.</span> The correct answer is: "' + correctLabelText + '"';
+      }
+
+      q.querySelectorAll('input').forEach(inp => inp.disabled = true);
+    });
+
+    const pct = score / totalQuestions;
+    const circumference = 264;
+    scoreRing.setAttribute('stroke-dashoffset', circumference - (circumference * pct));
+    scoreText.textContent = score + '/' + totalQuestions;
+
+    if(pct === 1){
+      scoreHeadline.textContent = 'Excellent — perfect score!';
+      scoreRing.setAttribute('stroke', '#3F9142');
+    } else if(pct >= 0.6){
+      scoreHeadline.textContent = 'Good work!';
+      scoreRing.setAttribute('stroke', '#1F6F78');
+    } else {
+      scoreHeadline.textContent = 'Keep practicing.';
+      scoreRing.setAttribute('stroke', '#C4453A');
+    }
+    scoreDetail.textContent = 'You answered ' + score + ' out of ' + totalQuestions + ' questions correctly. Scroll up to review the correct answers for each question.';
+
+    scorePanel.classList.add('show');
+    checkBtn.disabled = true;
+    scorePanel.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  resetBtn.addEventListener('click', function(){
+    form.reset();
+    questions.forEach(q => {
+      q.classList.remove('graded-correct','graded-incorrect');
+      q.querySelectorAll('input').forEach(inp => inp.disabled = false);
+      q.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct-answer','wrong-answer'));
+      const fb = q.querySelector('.feedback');
+      fb.classList.remove('show','correct','incorrect');
+      fb.innerHTML = '';
+    });
+    scorePanel.classList.remove('show');
+    checkBtn.disabled = false;
+    unansweredNote.classList.remove('show');
+    updateProgress();
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
