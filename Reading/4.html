@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Climate Change: Our Planet's Biggest Challenge — Reading &amp; Quiz</title>
+<style>
+  :root{
+    --paper:#F4F2F6;
+    --paper-line:#DAD5E2;
+    --ink:#262233;
+    --ink-soft:#5B5568;
+    --accent-teal:#1F6F78;
+    --accent-mustard:#D9A441;
+    --correct:#3F9142;
+    --correct-bg:#E9F5EA;
+    --incorrect:#C4453A;
+    --incorrect-bg:#FBEAE8;
+    --card:#FFFFFF;
+  }
+
+  * { box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 2.1em;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    padding: 0 0 4rem 0;
+  }
+
+  header{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
+  }
+
+  .eyebrow{
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-teal);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+
+  h1{
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 2.1rem;
+    line-height: 1.15;
+    margin: 0 0 0.5rem 0;
+    color: var(--ink);
+  }
+
+  .subtitle{
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+  }
+
+  .passage{
+    max-width: 780px;
+    margin: 0 auto 2.5rem auto;
+    padding: 1.75rem 1.9rem;
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    box-shadow: 0 1px 0 var(--paper-line);
+  }
+
+  .passage p{
+    margin: 0 0 1.1rem 0;
+    font-size: 1.02rem;
+  }
+  .passage p:last-child{ margin-bottom: 0; }
+
+  .exam-bar{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(244,242,246,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--paper-line);
+    padding: 0.7rem 1.5rem;
+  }
+
+  .exam-bar-inner{
+    max-width: 780px;
+    margin: 0 auto;
+    display:flex;
+    align-items:center;
+    gap: 1rem;
+  }
+
+  .exam-bar-label{
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .exam-progress-track{
+    flex:1;
+    height: 8px;
+    background: var(--paper-line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .exam-progress-fill{
+    height: 100%;
+    width: 0%;
+    background: var(--accent-teal);
+    border-radius: 999px;
+    transition: width 0.25s ease;
+  }
+
+  .exam-progress-count{
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .quiz-header{
+    max-width: 780px;
+    margin: 0 auto 1.2rem auto;
+    padding: 0 1.5rem;
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .quiz-header h2{
+    font-family: Georgia, serif;
+    font-size: 1.4rem;
+    margin: 0;
+  }
+
+  .quiz-header .hint{
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  main.quiz{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .question{
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem 1.4rem 1.5rem;
+    margin-bottom: 1rem;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .question .qnum{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--accent-teal);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-right: 0.6rem;
+    flex-shrink: 0;
+  }
+
+  .question .qtext{
+    display:flex;
+    align-items:flex-start;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .options{
+    display:flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: 2.2rem;
+  }
+
+  .option{
+    display:flex;
+    align-items:center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 9px;
+    border: 1px solid var(--paper-line);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .option:hover{ border-color: var(--accent-teal); }
+
+  .option input{ accent-color: var(--accent-teal); }
+
+  .option.correct-answer{
+    background: var(--correct-bg);
+    border-color: var(--correct);
+  }
+
+  .option.wrong-answer{
+    background: var(--incorrect-bg);
+    border-color: var(--incorrect);
+  }
+
+  .feedback{
+    margin: 0.7rem 0 0 2.2rem;
+    font-size: 0.88rem;
+    display:none;
+  }
+
+  .feedback.show{ display:block; }
+
+  .feedback .tag{
+    font-weight: 700;
+    margin-right: 0.35rem;
+  }
+
+  .feedback.correct .tag{ color: var(--correct); }
+  .feedback.incorrect .tag{ color: var(--incorrect); }
+
+  .question.graded-correct{ border-color: var(--correct); }
+  .question.graded-incorrect{ border-color: var(--incorrect); }
+
+  .reflection-box{
+    background: var(--card);
+    border: 1px dashed var(--paper-line);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .reflection-box .qtext{ font-weight:600; margin-bottom: 0.7rem; display:flex; align-items:flex-start;}
+  .reflection-box textarea{
+    border-radius: 9px;
+    border: 1px solid var(--paper-line);
+    padding: 0.7rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    margin-left: 2.2rem;
+    width: calc(100% - 2.2rem);
+    min-height: 70px;
+  }
+
+  .reflection-note{
+    margin: 0.5rem 0 0 2.2rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .actions{
+    display:flex;
+    gap: 0.75rem;
+    align-items:center;
+    margin: 1.5rem 0 2.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  button#checkBtn, button#resetBtn{
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    cursor: pointer;
+    border: none;
+  }
+
+  button#checkBtn{
+    background: var(--accent-teal);
+    color: white;
+  }
+  button#checkBtn:hover{ background: #185961; }
+  button#checkBtn:disabled{ background: #A9C6C9; cursor: not-allowed; }
+
+  button#resetBtn{
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--paper-line);
+  }
+  button#resetBtn:hover{ border-color: var(--ink-soft); }
+
+  .unanswered-note{
+    font-size: 0.85rem;
+    color: var(--incorrect);
+    display:none;
+  }
+  .unanswered-note.show{ display:block; }
+
+  #scorePanel{
+    display:none;
+    max-width: 780px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1.5rem;
+  }
+  #scorePanel.show{ display:block; }
+
+  .score-card{
+    background: var(--card);
+    border: 1px solid var(--paper-line);
+    border-radius: 16px;
+    padding: 1.6rem;
+    display:flex;
+    align-items:center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .seal{
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+  }
+
+  .score-text h3{
+    font-family: Georgia, serif;
+    margin: 0 0 0.3rem 0;
+    font-size: 1.25rem;
+  }
+
+  .score-text p{
+    margin:0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+
+  footer{
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">B1 Reading &middot; Comprehension Quiz</div>
+  <h1>Climate Change: Our Planet's Biggest Challenge</h1>
+  <div class="subtitle">Read the passage carefully, then answer the questions below. Your progress bar fills in as you answer.</div>
+</header>
+
+<section class="passage">
+  <p>If you ask a scientist to name the biggest challenge facing our planet today, most of them will give the same answer: climate change. You have probably heard this term many times, in the news, at school, or on social media, but what does it actually mean? In simple words, climate change refers to long-term changes in the Earth's temperature and weather patterns. While the climate has always changed slowly over thousands of years, scientists agree that the planet is now warming much faster than at any point in recorded history, and human activity is the main reason why.</p>
+
+  <p>To understand climate change, it helps to understand something called the "greenhouse effect." Earth's atmosphere contains certain gases, such as carbon dioxide and methane, which trap heat from the sun, similar to how the glass walls of a greenhouse keep plants warm inside. This natural process is actually necessary for life on Earth; without it, our planet would be far too cold for humans, animals, and plants to survive. The problem is that human activities, especially burning fossil fuels like coal, oil, and gas for energy, have released enormous amounts of extra greenhouse gases into the atmosphere. This has made the natural greenhouse effect much stronger than it should be, causing the planet's average temperature to rise.</p>
+
+  <p>The effects of this warming can already be seen around the world. Glaciers and ice sheets in places like Antarctica and Greenland are melting at a faster rate than ever recorded, which causes sea levels to rise and threatens coastal cities and small island nations. Extreme weather events, such as powerful hurricanes, long droughts, and unusually intense heatwaves, are becoming more frequent and more severe in many regions. Wildfires, which naturally occur in some ecosystems, are now burning larger areas for longer periods of time in places like California, Australia, and the Mediterranean. Scientists warn that if global temperatures continue to rise at the current rate, these problems will only become more serious in the coming decades.</p>
+
+  <p>Climate change does not only affect the environment; it also affects people's everyday lives, especially in vulnerable communities. Farmers in some regions are struggling because unpredictable weather makes it harder to grow crops successfully, which can lead to food shortages and rising prices. In coastal areas, rising sea levels threaten homes, schools, and entire towns, forcing some families to relocate to safer areas. This growing group of people, sometimes called "climate refugees," is expected to increase significantly in the coming years if serious action is not taken. Importantly, research shows that countries and communities that have contributed the least to climate change often suffer its worst effects, which raises serious questions about fairness and responsibility.</p>
+
+  <p>Despite these worrying facts, there is also reason for hope. Around the world, countries, cities, and companies are taking action to reduce greenhouse gas emissions. Renewable energy sources, such as solar panels and wind turbines, are becoming cheaper and more efficient every year, allowing more countries to reduce their dependence on fossil fuels. Electric cars, which do not burn gasoline, are becoming more common on roads in many countries, including Turkey. Governments are also creating new laws and international agreements, such as the Paris Agreement, in which many countries promised to work together to limit global warming and reduce their carbon emissions.</p>
+
+  <p>Individual actions matter too, even though they might seem small compared to global problems. Simple choices, such as using public transportation instead of driving alone, reducing food waste, recycling, or using less electricity, can add up to a meaningful difference when millions of people make similar choices. Schools and universities are also playing an important role by teaching students about sustainability and encouraging them to think critically about their own habits and consumption. Many young people around the world have become active voices in the climate movement, organizing protests, starting environmental clubs, and pushing political leaders to take stronger action.</p>
+
+  <p>Climate change can feel like an overwhelming problem, especially for young people who did not create it but will live with its consequences for most of their lives. However, experts emphasize that the situation is not hopeless. With continued scientific innovation, stronger international cooperation, and the involvement of younger generations who care deeply about the future of the planet, meaningful progress is still possible. Understanding climate change is the first step; the next step, many believe, belongs to the generation growing up today — the generation that will decide what kind of planet comes next.</p>
+</section>
+
+<div class="exam-bar">
+  <div class="exam-bar-inner">
+    <span class="exam-bar-label">Progress</span>
+    <div class="exam-progress-track"><div class="exam-progress-fill" id="progressFill"></div></div>
+    <span class="exam-progress-count" id="progressCount">0 / 8 answered</span>
+  </div>
+</div>
+
+<div class="quiz-header">
+  <h2>Check your understanding</h2>
+  <div class="hint">8 graded questions + 1 reflection question</div>
+</div>
+
+<main class="quiz">
+
+  <form id="quizForm">
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">1</span>According to the text, what does "climate change" mean?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q1" value="a"> A sudden storm that happens once a year</label>
+        <label class="option"><input type="radio" name="q1" value="b"> A change in government energy policy</label>
+        <label class="option"><input type="radio" name="q1" value="c"> Long-term changes in the Earth's temperature and weather patterns</label>
+        <label class="option"><input type="radio" name="q1" value="d"> A type of natural disaster that only affects the ocean</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">2</span>What is the "greenhouse effect," according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="a"> A machine used to grow vegetables faster</label>
+        <label class="option"><input type="radio" name="q2" value="b"> A natural process where gases trap heat from the sun in the atmosphere</label>
+        <label class="option"><input type="radio" name="q2" value="c"> A type of pollution found only in cities</label>
+        <label class="option"><input type="radio" name="q2" value="d"> A method farmers use to protect crops from frost</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="d">
+      <div class="qtext"><span class="qnum">3</span>According to the text, what has made the natural greenhouse effect stronger than it should be?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="a"> An increase in the number of glaciers</label>
+        <label class="option"><input type="radio" name="q3" value="b"> More rain in coastal cities</label>
+        <label class="option"><input type="radio" name="q3" value="c"> A decrease in wildfires around the world</label>
+        <label class="option"><input type="radio" name="q3" value="d"> Extra greenhouse gases released by burning fossil fuels</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="a">
+      <div class="qtext"><span class="qnum">4</span>Which of these is given as an effect of climate change already happening in the world?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q4" value="a"> Glaciers and ice sheets melting faster than ever recorded</label>
+        <label class="option"><input type="radio" name="q4" value="b"> A decrease in the number of hurricanes</label>
+        <label class="option"><input type="radio" name="q4" value="c"> Cooler temperatures across most of the world</label>
+        <label class="option"><input type="radio" name="q4" value="d"> Fewer droughts than in past decades</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">5</span>Who are "climate refugees," according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q5" value="a"> Scientists who study glaciers</label>
+        <label class="option"><input type="radio" name="q5" value="b"> Government workers who write climate laws</label>
+        <label class="option"><input type="radio" name="q5" value="c"> People forced to relocate because of problems like rising sea levels</label>
+        <label class="option"><input type="radio" name="q5" value="d"> Tourists who travel to see melting glaciers</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="b">
+      <div class="qtext"><span class="qnum">6</span>What "question of fairness" does the text raise about climate change?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q6" value="a"> Whether rich countries should build more factories</label>
+        <label class="option"><input type="radio" name="q6" value="b"> That countries contributing least to climate change often suffer its worst effects</label>
+        <label class="option"><input type="radio" name="q6" value="c"> Whether electric cars should cost less money</label>
+        <label class="option"><input type="radio" name="q6" value="d"> That every country pollutes the same amount</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="a">
+      <div class="qtext"><span class="qnum">7</span>What is the Paris Agreement, according to the text?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q7" value="a"> An international agreement where countries promised to work together to limit global warming</label>
+        <label class="option"><input type="radio" name="q7" value="b"> A law that bans all use of fossil fuels immediately</label>
+        <label class="option"><input type="radio" name="q7" value="c"> A company that builds solar panels</label>
+        <label class="option"><input type="radio" name="q7" value="d"> A conference only for scientists, not governments</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question" data-correct="c">
+      <div class="qtext"><span class="qnum">8</span>What is the writer's overall message in the conclusion?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q8" value="a"> Climate change cannot be solved, so no action matters</label>
+        <label class="option"><input type="radio" name="q8" value="b"> Only governments can make a difference, not individuals</label>
+        <label class="option"><input type="radio" name="q8" value="c"> Progress is still possible, and young people have an important role to play</label>
+        <label class="option"><input type="radio" name="q8" value="d"> Climate change is not a serious problem for this generation</label>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="reflection-box">
+      <div class="qtext"><span class="qnum">9</span>What is one small change you could make in your own life to help the environment?</div>
+      <textarea placeholder="Write 2–3 sentences in English..."></textarea>
+      <div class="reflection-note">This is a reflection question — there is no single correct answer, so it is not included in the score.</div>
+    </div>
+
+    <div class="actions">
+      <button type="submit" id="checkBtn">Check my answers</button>
+      <button type="button" id="resetBtn">Try again</button>
+      <div class="unanswered-note" id="unansweredNote">Please answer all 8 questions before checking.</div>
+    </div>
+
+  </form>
+
+</main>
+
+<div id="scorePanel">
+  <div class="score-card">
+    <svg class="seal" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="#DAD5E2" stroke-width="10"/>
+      <circle id="scoreRing" cx="50" cy="50" r="42" fill="none" stroke="#1F6F78" stroke-width="10"
+              stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264"/>
+      <text id="scoreText" x="50" y="56" text-anchor="middle" font-family="Georgia, serif" font-size="22" font-weight="700" fill="#262233">0/8</text>
+    </svg>
+    <div class="score-text">
+      <h3 id="scoreHeadline">Your result</h3>
+      <p id="scoreDetail">Correct answers are shown in green next to each question. Incorrect choices are shown in red, with the right answer marked.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Reading &amp; quiz prepared for B1-level ESL students.</footer>
+
+<script>
+  const form = document.getElementById('quizForm');
+  const checkBtn = document.getElementById('checkBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const unansweredNote = document.getElementById('unansweredNote');
+  const scorePanel = document.getElementById('scorePanel');
+  const scoreRing = document.getElementById('scoreRing');
+  const scoreText = document.getElementById('scoreText');
+  const scoreHeadline = document.getElementById('scoreHeadline');
+  const scoreDetail = document.getElementById('scoreDetail');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+
+  const questions = Array.from(document.querySelectorAll('.question'));
+  const totalQuestions = questions.length;
+
+  function updateProgress(){
+    const answered = questions.filter(q => {
+      const name = q.querySelector('input[type=radio]').name;
+      return form.querySelector('input[name="' + name + '"]:checked');
+    }).length;
+    progressFill.style.width = (answered / totalQuestions * 100) + '%';
+    progressCount.textContent = answered + ' / ' + totalQuestions + ' answered';
+  }
+
+  form.addEventListener('change', updateProgress);
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const allAnswered = questions.every(q => {
+      const name = q.querySelector('input[type=radio]').name;
+      return form.querySelector('input[name="' + name + '"]:checked');
+    });
+
+    if(!allAnswered){
+      unansweredNote.classList.add('show');
+      return;
+    }
+    unansweredNote.classList.remove('show');
+
+    let score = 0;
+
+    questions.forEach(q => {
+      const correctVal = q.getAttribute('data-correct');
+      const name = q.querySelector('input[type=radio]').name;
+      const selected = form.querySelector('input[name="' + name + '"]:checked');
+      const selectedVal = selected.value;
+      const options = q.querySelectorAll('.option');
+      const feedback = q.querySelector('.feedback');
+
+      options.forEach(opt => {
+        const val = opt.querySelector('input').value;
+        if(val === correctVal){
+          opt.classList.add('correct-answer');
+        }
+        if(val === selectedVal && val !== correctVal){
+          opt.classList.add('wrong-answer');
+        }
+      });
+
+      feedback.classList.add('show');
+
+      if(selectedVal === correctVal){
+        score++;
+        q.classList.add('graded-correct');
+        feedback.classList.add('correct');
+        feedback.innerHTML = '<span class="tag">Correct.</span> Well done — that matches the passage.';
+      } else {
+        q.classList.add('graded-incorrect');
+        feedback.classList.add('incorrect');
+        const correctLabelEl = q.querySelector('.option input[value="' + correctVal + '"]').closest('.option');
+        const correctLabelText = correctLabelEl.textContent.trim();
+        feedback.innerHTML = '<span class="tag">Not quite.</span> The correct answer is: "' + correctLabelText + '"';
+      }
+
+      q.querySelectorAll('input').forEach(inp => inp.disabled = true);
+    });
+
+    const pct = score / totalQuestions;
+    const circumference = 264;
+    scoreRing.setAttribute('stroke-dashoffset', circumference - (circumference * pct));
+    scoreText.textContent = score + '/' + totalQuestions;
+
+    if(pct === 1){
+      scoreHeadline.textContent = 'Excellent — perfect score!';
+      scoreRing.setAttribute('stroke', '#3F9142');
+    } else if(pct >= 0.6){
+      scoreHeadline.textContent = 'Good work!';
+      scoreRing.setAttribute('stroke', '#1F6F78');
+    } else {
+      scoreHeadline.textContent = 'Keep practicing.';
+      scoreRing.setAttribute('stroke', '#C4453A');
+    }
+    scoreDetail.textContent = 'You answered ' + score + ' out of ' + totalQuestions + ' questions correctly. Scroll up to review the correct answers for each question.';
+
+    scorePanel.classList.add('show');
+    checkBtn.disabled = true;
+    scorePanel.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  resetBtn.addEventListener('click', function(){
+    form.reset();
+    questions.forEach(q => {
+      q.classList.remove('graded-correct','graded-incorrect');
+      q.querySelectorAll('input').forEach(inp => inp.disabled = false);
+      q.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct-answer','wrong-answer'));
+      const fb = q.querySelector('.feedback');
+      fb.classList.remove('show','correct','incorrect');
+      fb.innerHTML = '';
+    });
+    scorePanel.classList.remove('show');
+    checkBtn.disabled = false;
+    unansweredNote.classList.remove('show');
+    updateProgress();
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
